@@ -33,9 +33,9 @@ shinyServer(function(input, output) {
     
     #lookup word list in corpus data
     if(text != ""){
-      one <- grep(paste0("^",text),unigram$String, value=TRUE)
-      two <- grep(paste0("^",text),bigram$String, value=TRUE)
-      three <- grep(paste0("^",text),trigram$String, value=TRUE)
+      one <- grep(paste0("^",text),unigram$String, value=TRUE, perl=TRUE)
+      two <- grep(paste0("^",text),bigram$String, value=TRUE, perl=TRUE)
+      three <- grep(paste0("^",text),trigram$String, value=TRUE, perl=TRUE)
       #choose the first word set match from unigram,bigram, and trigram
       lookup <- data.frame(c(one[1], two[1], three[1]), stringsAsFactors = FALSE)
     }
