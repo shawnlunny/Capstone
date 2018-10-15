@@ -17,6 +17,10 @@ trigram <- readRDS(file="trigram.RData")
 trigram$String <- as.character(trigram[,"String"])
 #quadrigram <- readRDS(file="quadrigram.RData")
 
+unigram$String <- as.character(unigram[,"String"])
+bigram$String <- as.character(bigram[,"String"])
+trigram$String <- as.character(trigram[,"String"])
+
 
 shinyServer(function(input, output) {
   
@@ -26,27 +30,18 @@ shinyServer(function(input, output) {
     })
   
   nextWordPrediction <- function(text){
-    #this will pose an issue on which word to check in which corpus (possibly bad logic here)
-    words <- data.frame(strsplit(text, "\\s+"), stringsAsFactors = FALSE)
-    
-    
-    #find the last word the user has typed
-    last <- words[nrow(words),]
     
     #lookup word list in corpus data
-    one <- unigram[last,"String"]
-    two <- bigram[last,"String"]
-    three <- trigram[last,"String"]
-    
-    #TODO: add some grep like logic to the subset
-    
-    #wordList <- subset(unigram, String==words, select = String)
-    #wordList <- subset(biigram, String==words, select = String)
-    wordList <- subset(trigram, String==words, select = String)
-    
+    if(text != ""){
+      one <- grep(paste0("^",text),unigram$String, value=TRUE)
+      two <- grep(paste0("^",text),bigram$String, value=TRUE)
+      three <- grep(paste0("^",text),trigram$String, value=TRUE)
+      #choose the first word set match from unigram,bigram, and trigram
+      lookup <- data.frame(c(one[1], two[1], three[1]), stringsAsFactors = FALSE)
+    }
   }
   
   output$predictedWord1 <- renderText(wordPrediction()[1,])
-  output$predictedWord2 <- renderText(wordPrediction()[1,])
-  output$predictedWord3 <- renderText(wordPrediction()[1,])
+  output$predictedWord2 <- renderText(wordPrediction()[2,])
+  output$predictedWord3 <- renderText(wordPrediction()[3,])
 })
