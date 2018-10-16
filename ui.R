@@ -1,9 +1,7 @@
 suppressPackageStartupMessages(c(
   library(shinythemes),
   library(shiny),
-  library(tm),
-  library(stringr),
-  library(markdown)
+  library(stringr)
   ))
 
 shinyUI(
