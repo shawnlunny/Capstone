@@ -29,7 +29,8 @@ Instructions:
 2. The application will then show up to 3 sets of predictive words that the user may type next.
 3. If the app comes across a word or set of words not contained in the Corpus, it will not show any predictions.
 
-Limitations:
+Limitations/Considerations:
 
 1. There is no text filtering in the app. Spelling errors will not be checked as this would require dictionary lookups and other services. Just like a real phone, anything can be typed.
 2. Since word stemming was used, the root part of words and their plurals will be displayed (i.e. Citi versus city and cities). The tradeoff is a more accurate prediction, but with a higher likelihood of mis-spelling.
+3. In the original cleanup of the corpus I did not remove quotes or other random characters. A refinement would be to remove them via tm_map or regexp manipulations.
